@@ -1,20 +1,19 @@
-// Paul Cusimano 
+// Paul Cusimano
 // 2024
 // Homework 5
 
 // Sol LeWitt's Wall Drawing 16 (1969)
 
 // Description:
-// Bands of lines 12 inches (30 cm) wide, 
+// Bands of lines 12 inches (30 cm) wide,
 // in three directions (vertical, horizontal, diagonal right)
 // intersecting.
 // https://massmoca.org/event/walldrawing16/
 
-
 let offsetRange = 0.3; // offset from the 'perfect' line position to help create the hand-drawn effect
 
 // range of gray values for the lines
-let grayMin = 150; 
+let grayMin = 150;
 let grayMax = 200;
 
 // how many times its redrawn per second
@@ -61,25 +60,25 @@ function draw() {
 }
 
 function drawPattern() {
-  // vertical lines within a rectangle
   let rectHeight = height * 0.5;
   let rectYStart = (height - rectHeight) / 2;
-    // The line that indicates the 'start and end' of the vertical lines
-    for (let i = 0; i < 2; i++) {
-      let y = rectYStart + i * rectHeight;
-      for (let x = 0; x <= width; x += 5) {
-        let randomGray = getRandomGray();
-        stroke(randomGray);
-        drawImperfectLine(x, y, x + 5, y);
-      }
-    }
 
+  // The line that indicates the 'start and end' of the vertical lines
+  for (let i = 0; i < 2; i++) {
+    let y = rectYStart + i * rectHeight;
+    for (let x = 0; x <= width; x += 5) {
+      let randomGray = getRandomGray();
+      stroke(randomGray);
+      drawImperfectLine(x, y, x + 5, y);
+    }
+  }
+
+  // vertical lines within the rectangle
   for (let x = 0; x <= width; x += 5) {
     let randomGray = getRandomGray();
     stroke(randomGray);
     drawImperfectLine(x, rectYStart, x, rectYStart + rectHeight);
   }
-
 }
 
 // makes a line between two points, with an attempted hand-drawn effect
@@ -95,8 +94,10 @@ function drawImperfectLine(x1, y1, x2, y2) {
     let t = i / steps;
     let x = lerp(x1, x2, t);
     let y = lerp(y1, y2, t);
-    let offsetX = noise(x * noiseScale, y * noiseScale) * offsetRange * 2 - offsetRange;
-    let offsetY = noise(y * noiseScale, x * noiseScale) * offsetRange * 2 - offsetRange;
+    let offsetX =
+      noise(x * noiseScale, y * noiseScale) * offsetRange * 2 - offsetRange;
+    let offsetY =
+      noise(y * noiseScale, x * noiseScale) * offsetRange * 2 - offsetRange;
     vertex(x + offsetX, y + offsetY);
     segmentCounter++;
   }
